@@ -8,7 +8,7 @@
    version="1.1"
    id="svg1"
    inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
-   sodipodi:docname="dssh.svg"
+   sodipodi:docname="dssh_alt.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -24,9 +24,9 @@
      inkscape:pagecheckerboard="true"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="1.1413858"
-     inkscape:cx="-279.04675"
-     inkscape:cy="230.85971"
+     inkscape:zoom="1.6141633"
+     inkscape:cx="5.2658861"
+     inkscape:cy="251.83326"
      inkscape:window-width="2560"
      inkscape:window-height="1380"
      inkscape:window-x="3840"
@@ -89,7 +89,7 @@
        ry="7.5621457" />
     <path
        id="iyah"
-       style="font-size:133.333px;font-family:'Geist Mono';-inkscape-font-specification:'Geist Mono, @wght=100';font-variation-settings:'wght' 100;text-align:center;white-space:pre;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:round;stroke-miterlimit:0;stroke-opacity:1;paint-order:stroke fill markers"
+       style="font-size:133.333px;font-family:'Geist Mono';-inkscape-font-specification:'Geist Mono, @wght=100';font-variation-settings:'wght' 100;text-align:center;white-space:pre;fill:#d946ef;fill-opacity:1;stroke:#e336ff;stroke-width:0.9525;stroke-linecap:round;stroke-miterlimit:0;stroke-opacity:1;paint-order:stroke fill markers;stroke-dasharray:none;stroke-linejoin:round"
        d="m 14.570115,18.185456 v 1.367786 l 16.601372,8.163141 -16.601372,8.163141 v 1.367198 l 17.854292,-8.766334 v -1.52801 z m 66.10977,0 -17.854292,8.766922 v 1.52801 l 17.854292,8.766334 V 35.879524 L 64.078516,27.716383 80.679885,19.553242 Z M 39.582618,39.458039 v 1.206386 h 16.084767 v -1.206386 z" />
   </g>
 </svg>

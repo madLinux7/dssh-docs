@@ -1,40 +1,102 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: dssh
+description: Dead-simple SSH connection manager. TUI & CLI. No dependencies, no manual file editing.
+template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
+  tagline: The only SSH connection manager you'll ever need.<br>Dead-simple CLI & TUI.<br>On Linux, macOS, Windows & FreeBSD.
   image:
-    file: ../../assets/houston.webp
+    file: ../../assets/dssh.svg
+    alt: "Deine Mudda"
+    class: ".hero-img"
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: Get started
+      link: /getting-started/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/madLinux7/dssh
       icon: external
       variant: minimal
+      attrs:
+        target: _blank
+        rel: noopener
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, Tabs, TabItem, Code } from '@astrojs/starlight/components';
 
-## Next steps
+<div class="install-tabs">
+
+# Quick install
+
+<Tabs syncKey="installers">
+ <TabItem label="Universal" icon="seti:shell">
+  <div style="margin-bottom: 8px !important">
+   <Code code={
+    `# Unix (Linux, macOS, FreeBSD)                                                                                                                                    
+	curl -fsSL https://raw.githubusercontent.com/madLinux7/dssh/main/install.sh | sh`} lang="sh"
+   />
+  </div>
+  
+  <Code code={
+	`# Windows PowerShell
+	irm https://raw.githubusercontent.com/madLinux7/dssh/main/install.ps1 | iex`} lang="ps1"
+  />
+ </TabItem>
+
+ <TabItem label="AUR" icon="linux">
+  <Code code="yay -S dssh" lang="sh" />
+ </TabItem>
+ <TabItem label="Homebrew" icon="apple">
+  <Code code="brew install dssh" lang="sh" />
+ </TabItem>
+ <TabItem label="winget" icon="seti:windows">
+  <Code code="winget install dssh" lang="ps1" />
+ </TabItem>
+ <TabItem label="scoop" icon="seti:windows">
+  <Code code={
+  `scoop bucket add madLinux7_scoop-bucket https://github.com/madLinux7/scoop-bucket
+  scoop install madLinux7_scoop-bucket/dssh`} lang="ps1" />
+ </TabItem>
+</Tabs>
+
+</div>
+
+## Four core features
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
+	<Card title="Create" icon="add-document">
+		TUI: Add new connections in the Create tab.
+
+		CLI: `dssh add [NAME] [USER]@[HOST]`
 	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
+	<Card title="Connect" icon="rocket">
+		TUI: Search & pick from the list, hit enter, you're in.
+
+		CLI: `dssh [NAME]`, you're in.
 	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
+	<Card title="Edit" icon="pencil">
+		TUI: Change any field on any connection. Switch auth types freely. No more digging through `~/.ssh/config`.
 	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
+	<Card title="Delete" icon="close">
+	    TUI: Triple-confirm in delete tab ⭢ never nuke the wrong server by accident.
+
+	    CLI: `dssh rm [NAME]`
 	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+</CardGrid>
+
+## Why dssh?
+
+<CardGrid>
+	<Card title="Zero dependencies" icon="seti:go">
+		Single static binary compiled with Go. No runtime, no libraries, no config files to edit.
+	</Card>
+	<Card title="Your storage, your call" icon="seti:db">
+		Store connections in SQLite, your `ssh_config`, or both. Keep existing ssh workflows, gain a TUI.
+	</Card>
+	<Card title="Cross-platform" icon="laptop">
+		Windows, macOS, Linux, FreeBSD. Switching machines? Just take `~/.dssh/dssh.db` with you.
+	</Card>
+	<Card title="Strong crypto by default" icon="seti:lock">
+		Passwords encrypted with AES-256-GCM. Master passphrase derived via Argon2id. Never stored.
 	</Card>
 </CardGrid>
