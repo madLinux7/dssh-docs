@@ -5,15 +5,20 @@ import starlightThemeGalaxy from 'starlight-theme-galaxy'
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://dssh.grolmes.com',
 	integrations: [
 		starlight({
 			plugins: [starlightThemeGalaxy()],
 			title: 'dssh',
 			customCss: ['./src/styles/custom.css'],
 			head: [
+				// {
+				// 	tag: 'style',
+				// 	content: 'starlight-tabs>*:not(.tablist-wrapper){padding: 0 !important;}',
+				// },
 				{
 					tag: 'style',
-					content: 'starlight-tabs>*:not(.tablist-wrapper){padding: 0 !important;}',
+					content: '[class*="expressive-code"] {background: transparent !important;}',
 				},
 				{
 					tag: 'script',
@@ -41,13 +46,22 @@ export default defineConfig({
 				{
 					label: 'Guides',
 					items: [
-						{ label: 'Example Guide', slug: 'guides/example' },
+						{ label: 'Security model', slug: 'guides/security' },
+						{ label: 'Migration', slug: 'guides/migration' },
+						{ label: 'Troubleshooting', slug: 'guides/troubleshooting' },
+						{ label: 'FAQ', slug: 'guides/faq' },
 					],
 				},
 				{
 					label: 'Reference',
-					autogenerate: { directory: 'reference' },
+					items: [
+						{ label: 'Commands', slug: 'reference/commands' },
+						{ label: 'TUI keybindings', slug: 'reference/tui-keys' },
+						{ label: 'Configuration', slug: 'reference/config' },
+						{ label: 'Limitations', slug: 'reference/limitations' },
+					],
 				},
+				{ label: 'Contributing', slug: 'contributing' },
 			],
 		}),
 	],

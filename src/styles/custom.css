@@ -50,9 +50,23 @@
 	color: #fff;
 }
 
-h1,h2 {
+h1 {
+	font-family: "Geist Mono";
+	font-size: 2.77rem;
+}
+
+#_top {
+	font-size: 5rem;
+}
+
+/* html[data-has-hero] h1, */
+html[data-has-hero] h2 {
 	font-family: "Geist Mono";
 }
+
+/* starlight-tabs>*:not(.tablist-wrapper){padding: 0px;} */
+
+html[data-has-hero] starlight-tabs>*:not(.tablist-wrapper){padding: 0 !important;}
 
 /* ---------- Hero polish ---------- */
 .hero > img,
@@ -90,6 +104,10 @@ a.sl-link-button.minimal {
 
 div.expressive-code {
 	margin-bottom: 8px !important;
+}
+
+figcaption .header {
+	background: transparent;
 }
 
 /* ---------- Feature card grid ---------- */

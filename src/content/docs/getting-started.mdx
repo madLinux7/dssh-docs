@@ -1,8 +1,171 @@
 ---
 title: Get started
-description: Install and run dssh in under a minute.
+description: Install dssh, pick a storage mode, save your first connection, and jump in — all in under a minute.
 ---
 
-:construction: Content coming soon.
+import { Tabs, TabItem, Steps, Aside, Code, Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 
-This page will walk you through installation, creating your first connection, and connecting to a host.
+dssh wraps your system `ssh` binary with a TUI, a tiny CLI, and a SQLite store at `~/.dssh/dssh.db`. Zero daemons, one static binary, nothing to edit by hand unless you want to.
+
+## Requirements
+
+- `ssh` client in `PATH` (OpenSSH on Linux/macOS/BSD, OpenSSH for Windows on Win10+)
+- A terminal that handles TrueColor + Unicode for the TUI — most modern terminals qualify
+- Only if building from source: Go `1.26+`
+
+## Install
+
+<Tabs syncKey="installers">
+  <TabItem label="Universal" icon="seti:shell">
+    ```sh
+    # Unix (Linux, macOS, FreeBSD)
+    curl -fsSL https://raw.githubusercontent.com/madLinux7/dssh/main/install.sh | sh
+    ```
+
+    ```ps1
+    # Windows PowerShell
+    irm https://raw.githubusercontent.com/madLinux7/dssh/main/install.ps1 | iex
+    ```
+
+    Unix installs to `~/.local/bin` (override with `INSTALL_DIR=/custom/path`).
+    Windows installs to `%LOCALAPPDATA%\dssh` and patches `PATH`.
+  </TabItem>
+
+  <TabItem label="AUR" icon="linux">
+    ```sh
+    yay -S dssh
+    # or
+    paru -S dssh
+    ```
+  </TabItem>
+
+  <TabItem label="Homebrew" icon="apple">
+    ```sh
+    brew install madLinux7/tap/dssh
+    ```
+  </TabItem>
+
+  <TabItem label="winget" icon="seti:windows">
+    ```ps1
+    winget install madLinux.dssh
+    ```
+  </TabItem>
+
+  <TabItem label="scoop" icon="seti:windows">
+    ```sh
+    scoop bucket add madLinux7_scoop-bucket https://github.com/madLinux7/scoop-bucket
+    scoop install madLinux7_scoop-bucket/dssh
+    ```
+  </TabItem>
+
+  <TabItem label="From source" icon="seti:go">
+    ```sh
+    go install github.com/madLinux7/dssh/cmd/dssh@latest
+    ```
+
+    Or clone and build:
+
+    ```sh
+    git clone https://github.com/madLinux7/dssh.git
+    cd dssh
+    make build     # static, CGO-free binary
+    make release   # + UPX compression (needs upx)
+    ```
+  </TabItem>
+</Tabs>
+
+Verify the install:
+
+```sh
+dssh --version
+```
+
+## First run — pick a storage mode
+
+The first time you launch `dssh`, a one-time dialog asks where to keep connections. Pick whichever fits — you can change it later with `dssh config`.
+
+| Mode           | Stores connections in                                 | When to pick it                                                                 |
+| -------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------- |
+| **SQLite**     | `~/.dssh/dssh.db` (encrypted passwords supported)     | Clean slate, you want passwords + portability in one file                       |
+| **ssh_config** | `~/.ssh/config` or a path you choose                  | You already live in `ssh_config` and want to keep it the source of truth        |
+| **Both**       | SQLite *and* `ssh_config`, toggle with `Ctrl+L`       | Mixed: keep team-shared hosts in `ssh_config`, personal/password hosts in SQLite |
+
+<Aside type="note">
+Password auth is SQLite-only. `ssh_config` entries always use key auth — that's an `ssh_config` limitation, not ours.
+</Aside>
+
+When picking **ssh_config** or **Both**, you'll also choose a destination file: the main `~/.ssh/config`, a directive file like `~/.ssh/config.d/dssh`, or any custom path. If the file doesn't exist, dssh offers to create it.
+
+## Your first connection
+
+<Steps>
+
+1. **Add a host via CLI** — quickest path, uses your default pubkey:
+
+   ```sh
+   dssh add myserver root@192.168.1.10
+   ```
+
+   Or go interactive with the wizard:
+
+   ```sh
+   dssh create
+   ```
+
+2. **Connect** — name alone, nothing else:
+
+   ```sh
+   dssh myserver
+   ```
+
+   You're in. On Unix, dssh `syscall.Exec`s into `ssh` — zero wrapper overhead, full terminal control.
+
+3. **List what you have**:
+
+   ```sh
+   dssh ls
+   ```
+
+   ```
+   NAME        USER  HOST           PORT  AUTH  DIR
+   myserver    root  192.168.1.10   22    key   -
+   ```
+
+</Steps>
+
+## Password-authenticated hosts
+
+For hosts without key auth, save the password encrypted:
+
+```sh
+dssh add prod-box deploy@10.0.0.5 'hunter2'
+```
+
+First time you save a password, dssh prompts you to create a **master passphrase**. That passphrase drives Argon2id key derivation; the resulting AES-256-GCM key encrypts every stored password. Your passphrase itself is never written to disk — a verification token proves correctness on later unlocks.
+
+<Aside type="caution">
+Forget the master passphrase and the encrypted passwords are unrecoverable. `dssh reset` wipes the DB and lets you start over; key-based connections and `ssh_config` entries are not touched.
+</Aside>
+
+Prefer key auth whenever you can — it's faster to launch (process replacement, not a child) and leaves no secret at rest.
+
+## Run the full TUI
+
+No arguments, no sub-command — just:
+
+```sh
+dssh
+```
+
+Four tabs: **Connect**, **Create**, **Edit**, **Delete**. Navigate with `Tab` / `Shift+Tab`, pick with `Enter`, quit with `Esc` or `q`. See the [TUI keys reference](/reference/tui-keys/) for the full map.
+
+## Where to next
+
+<CardGrid>
+  <LinkCard title="Command reference" href="/reference/commands/" description="Every flag, alias, and example for the CLI." />
+  <LinkCard title="TUI keys" href="/reference/tui-keys/" description="Keybindings for each tab and modal." />
+  <LinkCard title="Configuration" href="/reference/config/" description="Parse modes, session flags, file locations." />
+  <LinkCard title="Security model" href="/guides/security/" description="How encryption, passphrases, and key derivation work." />
+  <LinkCard title="Troubleshooting" href="/guides/troubleshooting/" description="Permission denied, lost passphrase, WSL quirks." />
+  <LinkCard title="Migration" href="/guides/migration/" description="From ssh_config, across machines, between modes." />
+</CardGrid>

@@ -3,10 +3,10 @@ title: dssh
 description: Dead-simple SSH connection manager. TUI & CLI. No dependencies, no manual file editing.
 template: splash
 hero:
-  tagline: The only SSH connection manager you'll ever need.<br>Dead-simple CLI & TUI.<br>On Linux, macOS, Windows & FreeBSD.
+  tagline: The only SSH manager you'll ever need.<br>Dead-simple CLI & TUI.<br>On Linux, macOS, Windows & FreeBSD.
   image:
     file: ../../assets/dssh.svg
-    alt: "Deine Mudda"
+    alt: "dssh logo"
     class: ".hero-img"
   actions:
     - text: Get started
@@ -31,41 +31,46 @@ import { Card, CardGrid, Tabs, TabItem, Code } from '@astrojs/starlight/componen
 <Tabs syncKey="installers">
  <TabItem label="Universal" icon="seti:shell">
   <div style="margin-bottom: 8px !important">
-   <Code code={
-    `# Unix (Linux, macOS, FreeBSD)                                                                                                                                    
-	curl -fsSL https://raw.githubusercontent.com/madLinux7/dssh/main/install.sh | sh`} lang="sh"
+   <Code code={`
+  # Unix (Linux, macOS, FreeBSD)
+  curl -fsSL https://raw.githubusercontent.com/madLinux7/dssh/main/install.sh | sh
+  `} lang="sh"
    />
   </div>
-  
-  <Code code={
-	`# Windows PowerShell
-	irm https://raw.githubusercontent.com/madLinux7/dssh/main/install.ps1 | iex`} lang="ps1"
+  <Code code={`
+  # Windows PowerShell
+	irm https://raw.githubusercontent.com/madLinux7/dssh/main/install.ps1 | iex
+  `} lang="ps1"
   />
  </TabItem>
 
  <TabItem label="AUR" icon="linux">
   <Code code="yay -S dssh" lang="sh" />
  </TabItem>
+
  <TabItem label="Homebrew" icon="apple">
   <Code code="brew install dssh" lang="sh" />
  </TabItem>
+
  <TabItem label="winget" icon="seti:windows">
   <Code code="winget install dssh" lang="ps1" />
  </TabItem>
+
  <TabItem label="scoop" icon="seti:windows">
-  <Code code={
-  `scoop bucket add madLinux7_scoop-bucket https://github.com/madLinux7/scoop-bucket
-  scoop install madLinux7_scoop-bucket/dssh`} lang="ps1" />
+  <Code code={`
+  scoop bucket add madLinux7_scoop-bucket https://github.com/madLinux7/scoop-bucket
+  scoop install madLinux7_scoop-bucket/dssh
+  `} lang="ps1" />
  </TabItem>
 </Tabs>
 
 </div>
 
-## Four core features
+## 4 Core Features
 
 <CardGrid stagger>
 	<Card title="Create" icon="add-document">
-		TUI: Add new connections in the Create tab.
+		TUI: Add new connections in Create.
 
 		CLI: `dssh add [NAME] [USER]@[HOST]`
 	</Card>
