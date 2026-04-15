@@ -13,6 +13,6 @@
     "@astrojs/starlight": "^0.38.3",
     "astro": "^6.0.1",
     "sharp": "^0.34.2",
-    "starlight-theme-galaxy": "^0.8.0"
+    "starlight-theme-terminal": "link:../starlight-theme-terminal/packages/starlight-theme-terminal"
   }
 }

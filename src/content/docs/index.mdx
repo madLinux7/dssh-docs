@@ -23,6 +23,7 @@ hero:
 ---
 
 import { Card, CardGrid, Tabs, TabItem, Code } from '@astrojs/starlight/components';
+import FeatureGrid from 'starlight-theme-terminal/components/FeatureGrid.astro';
 
 <div class="install-tabs">
 
@@ -30,13 +31,11 @@ import { Card, CardGrid, Tabs, TabItem, Code } from '@astrojs/starlight/componen
 
 <Tabs syncKey="installers">
  <TabItem label="Universal" icon="seti:shell">
-  <div style="margin-bottom: 8px !important">
-   <Code code={`
+  <Code code={`
   # Unix (Linux, macOS, FreeBSD)
   curl -fsSL https://raw.githubusercontent.com/madLinux7/dssh/main/install.sh | sh
   `} lang="sh"
-   />
-  </div>
+  />
   <Code code={`
   # Windows PowerShell
 	irm https://raw.githubusercontent.com/madLinux7/dssh/main/install.ps1 | iex
@@ -68,7 +67,7 @@ import { Card, CardGrid, Tabs, TabItem, Code } from '@astrojs/starlight/componen
 
 ## 4 Core Features
 
-<CardGrid stagger>
+<FeatureGrid columns={2}>
 	<Card title="Create" icon="add-document">
 		TUI: Add new connections in Create.
 
@@ -83,11 +82,11 @@ import { Card, CardGrid, Tabs, TabItem, Code } from '@astrojs/starlight/componen
 		TUI: Change any field on any connection. Switch auth types freely. No more digging through `~/.ssh/config`.
 	</Card>
 	<Card title="Delete" icon="close">
-	    TUI: Triple-confirm in delete tab ⭢ never nuke the wrong server by accident.
+	    TUI: Triple-confirm in delete tab ⭢ never nuke the wrong server.
 
 	    CLI: `dssh rm [NAME]`
 	</Card>
-</CardGrid>
+</FeatureGrid>
 
 ## Why dssh?
 

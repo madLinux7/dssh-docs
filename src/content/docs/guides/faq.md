@@ -15,7 +15,6 @@ You can — and dssh supports that mode directly. The value dssh adds:
 
 - Fuzzy-searchable TUI over your hosts
 - Encrypted password storage (ssh_config can't do this)
-- Safer destructive ops (triple-confirm delete, double-confirm reset)
 - Consistent CLI across machines, regardless of how you spell your config files
 
 ### Does dssh work offline?
@@ -65,7 +64,7 @@ Yes — anything your `ssh` binary supports, dssh supports, because it's the sam
 
 ### Can I change the master passphrase?
 
-Not in-place today. `dssh reset` + re-add password hosts is the current path. A proper rotation command is a tracked feature request.
+Not in-place today. `dssh reset` + re-add password hosts is the current path.
 
 ### Are my passwords visible in memory?
 

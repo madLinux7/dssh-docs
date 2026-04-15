@@ -1,25 +1,17 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import starlightThemeGalaxy from 'starlight-theme-galaxy'
+import starlightThemeTerminal from 'starlight-theme-terminal'
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://dssh.grolmes.com',
 	integrations: [
 		starlight({
-			plugins: [starlightThemeGalaxy()],
+			plugins: [starlightThemeTerminal()],
 			title: 'dssh',
 			customCss: ['./src/styles/custom.css'],
 			head: [
-				// {
-				// 	tag: 'style',
-				// 	content: 'starlight-tabs>*:not(.tablist-wrapper){padding: 0 !important;}',
-				// },
-				{
-					tag: 'style',
-					content: '[class*="expressive-code"] {background: transparent !important;}',
-				},
 				{
 					tag: 'script',
 					content: `
