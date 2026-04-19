@@ -41,8 +41,9 @@ dssh reads and writes these `Host` block fields:
 | `User`           | User             |
 | `Port`           | Port             |
 | `IdentityFile`   | Identity file    |
+| `ProxyJump`      | ProxyJump        |
 
-Anything else (`ProxyJump`, `ForwardAgent`, `StrictHostKeyChecking`, custom `Match` blocks, …) is preserved untouched but not exposed in the TUI. If you edit one of those hosts in the TUI, the extra lines remain intact.
+Anything else (`ForwardAgent`, `StrictHostKeyChecking`, custom `Match` blocks, …) is preserved untouched but not exposed in the TUI. If you edit one of those hosts in the TUI, the extra lines remain intact.
 
 ### `ssh_config` limitations to be aware of
 

@@ -53,7 +53,7 @@ Anything after `--` is forwarded verbatim to `ssh`.
 ### `dssh add`
 
 ```text
-dssh add [-p PORT] [-d DIR] [--sqlite | --sshconfig] NAME target [password]
+dssh add [-p PORT] [-d DIR] [-J JUMP] [--sqlite | --sshconfig] NAME target [password]
 ```
 
 Save a new connection without touching the TUI.
@@ -62,6 +62,7 @@ Save a new connection without touching the TUI.
 | ----------------------- | ----- | ---------------------------------------------------------- |
 | `--port`                | `-p`  | SSH port (default `22`). Overrides a port in an `ssh://` URI |
 | `--directory`           | `-d`  | Remote directory to `cd` into on connect                   |
+| `--proxy-jump`          | `-J`  | ProxyJump host — threaded through to `ssh -J`. Accepts `user@bastion`, `bastion.example.com`, or a chain `host1,host2` |
 | `--sqlite`              |       | Force save to SQLite (bypasses `both`-mode prompt)         |
 | `--sshconfig`           |       | Force save to `ssh_config` (bypasses `both`-mode prompt)   |
 
@@ -84,6 +85,12 @@ dssh add myserver ssh://root@192.168.1.10:2222
 
 # land in /var/www on connect (passes -t to ssh + a cd+exec $SHELL -l)
 dssh add webhost -d /var/www deploy@web.example.com
+
+# through a jump host (maps to ssh -J)
+dssh add db01 -J jumpuser@bastion.example.com dbadmin@10.0.1.50
+
+# through a chain of jump hosts
+dssh add db01 -J jump1.example.com,jump2.example.com dbadmin@10.0.1.50
 
 # password auth — prompts for master passphrase on first use
 dssh add prodbox deploy@10.0.0.5 'hunter2'

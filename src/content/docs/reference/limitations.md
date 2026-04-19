@@ -7,13 +7,13 @@ dssh is deliberately minimal. Some things are on the roadmap, some are by design
 
 ## By design
 
-### Only four connection fields are managed
+### A small set of connection fields are managed
 
-dssh tracks **name, user, host, port, directory, identity file, and (optional) password** per connection — nothing else. Anything more exotic (`ProxyJump`, `ProxyCommand`, `ForwardAgent`, `StrictHostKeyChecking`, `Match`, …) belongs in `~/.ssh/config`, where `ssh` will honor it regardless of how you reach it through dssh.
+dssh tracks **name, user, host, port, directory, ProxyJump, identity file, and (optional) password** per connection — nothing else. Anything more exotic (`ProxyCommand`, `ForwardAgent`, `StrictHostKeyChecking`, `Match`, …) belongs in `~/.ssh/config`, where `ssh` will honor it regardless of how you reach it through dssh.
 
 ### No custom SSH config parser
 
-The built-in `ssh_config` reader recognises `HostName`, `User`, `Port`, `IdentityFile`, and the specific `RemoteCommand` pattern dssh itself writes (`cd '...' && exec $SHELL -l`). It deliberately ignores:
+The built-in `ssh_config` reader recognises `HostName`, `User`, `Port`, `IdentityFile`, `ProxyJump`, and the specific `RemoteCommand` pattern dssh itself writes (`cd '...' && exec $SHELL -l`). It deliberately ignores:
 
 - Wildcard / pattern hosts (`Host *`, `Host foo?`)
 - `Match` blocks

@@ -82,11 +82,13 @@ dssh myserver -- -v -L 8080:localhost:80 -R 2222:localhost:22
 
 ### Does dssh support `ProxyJump`?
 
-If you set it up in `~/.ssh/config`, yes — `ssh` handles the jump. dssh doesn't parse or manage `ProxyJump` entries itself; it relies on `ssh_config` for anything beyond user/host/port/directory/identity.
+Yes — since v2.1.0 `ProxyJump` is a first-class field on every connection. Set it from the CLI with `dssh add -J user@bastion NAME target`, from the TUI in the **ProxyJump** form field, or by editing an existing connection. The value is threaded through to `ssh -J` on connect and, for ssh_config-backed entries, written as a `ProxyJump` directive. Chains are supported: `host1,host2`.
+
+Anything you already have set up in `~/.ssh/config` still works — ssh resolves the jump regardless of how it was configured.
 
 ### Does dssh support SSH config directives beyond the basics?
 
-dssh *reads* and *writes* a conservative subset (`HostName`, `User`, `Port`, `IdentityFile`). Anything else you hand-author in your `ssh_config` is preserved and ignored by dssh — it won't round-trip through the TUI, but it won't be stripped on save either.
+dssh *reads* and *writes* a conservative subset (`HostName`, `User`, `Port`, `IdentityFile`, `ProxyJump`). Anything else you hand-author in your `ssh_config` is preserved and ignored by dssh — it won't round-trip through the TUI, but it won't be stripped on save either.
 
 ### Can I launch into a specific remote directory?
 
