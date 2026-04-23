@@ -10,9 +10,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.38.3",
-    "astro": "^6.0.1",
-    "sharp": "^0.34.2",
-    "starlight-theme-terminal": "link:../starlight-theme-terminal/packages/starlight-theme-terminal"
+    "@astrojs/starlight": "^0.38.4",
+    "astro": "^6.1.9",
+    "sharp": "^0.34.5",
+    "starlight-theme-terminal": "1.2.0"
   }
 }
