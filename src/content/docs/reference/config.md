@@ -9,13 +9,15 @@ dssh keeps configuration minimal — everything fits in the `settings` table of 
 
 | Path                         | What lives there                                            |
 | ---------------------------- | ----------------------------------------------------------- |
-| `~/.dssh/dssh.db`            | SQLite database — connections, settings, crypto material    |
+| `~/.dssh/dssh.db`            | SQLite database — connections, group metadata, settings, crypto material |
 | `~/.ssh/config`              | Main ssh config (when selected as `ssh_config` destination) |
 | `~/.ssh/config.d/dssh`       | Directive file (when selected)                              |
 | Custom path                  | Any file you chose during `dssh config`                     |
 | `$TMPDIR/dssh-askpass-*.sh`  | Short-lived askpass script (Unix; `.bat` on Windows)        |
 
 The data dir is created with mode `0700` on first run. SQLite runs in WAL mode, so you'll also see `dssh.db-wal` and `dssh.db-shm` alongside the main file — these are normal SQLite artifacts.
+
+Groups and memberships for both SQLite and `ssh_config` connections live in `dssh.db`. The `ssh_config` host entries themselves remain in the configured file.
 
 ## Parse modes
 

@@ -10,7 +10,7 @@ dssh wraps your system `ssh` binary with a TUI, a tiny CLI, and a SQLite store a
 ## Requirements
 
 - `ssh` client in `PATH` (OpenSSH on Linux/macOS/BSD, OpenSSH for Windows on Win10+)
-- A terminal that handles TrueColor + Unicode for the TUI — most modern terminals qualify
+- A terminal that handles TrueColor + Unicode for the TUI — you probably have one installed unless you avoided updates since 2016
 - Only if building from source: Go `1.26+`
 
 ## Install
@@ -91,12 +91,14 @@ The first time you launch `dssh`, a one-time dialog asks where to keep connectio
 | **Both**       | SQLite *and* `ssh_config`, toggle with `Ctrl+L`       | Mixed: keep team-shared hosts in `ssh_config`, personal/password hosts in SQLite |
 
 <Aside type="note">
-Password auth is SQLite-only. `ssh_config` entries always use key auth — that's an `ssh_config` limitation, not ours.
+Password auth is SQLite-only. `ssh_config` entries always use key auth.
 </Aside>
 
 When picking **ssh_config** or **Both**, you'll also choose a destination file: the main `~/.ssh/config`, a directive file like `~/.ssh/config.d/dssh`, or any custom path. If the file doesn't exist, dssh offers to create it.
 
 ## Your first connection
+
+<div style="margin-top: 20px" />
 
 <Steps>
 
@@ -144,7 +146,7 @@ dssh add prod-box deploy@10.0.0.5 'hunter2'
 First time you save a password, dssh prompts you to create a **master passphrase**. That passphrase drives Argon2id key derivation; the resulting AES-256-GCM key encrypts every stored password. Your passphrase itself is never written to disk — a verification token proves correctness on later unlocks.
 
 <Aside type="caution">
-Forget the master passphrase and the encrypted passwords are unrecoverable. `dssh reset` wipes the DB and lets you start over; key-based connections and `ssh_config` entries are not touched.
+Forget the master passphrase and the encrypted passwords are unrecoverable. `dssh reset` deletes the SQLite database, including SQLite connections, groups, memberships, and settings. `ssh_config` entries are untouched.
 </Aside>
 
 Prefer key auth whenever you can — it's faster to launch (process replacement, not a child) and leaves no secret at rest.
@@ -157,7 +159,11 @@ No arguments, no sub-command — just:
 dssh
 ```
 
-Four tabs: **Connect**, **Create**, **Edit**, **Delete**. Switch tabs with `Tab` / `Shift+Tab` or `←` / `→`, pick with `Enter`, quit with `Esc` or `Ctrl+C`. See the [TUI keys reference](/reference/tui-keys/) for the full map.
+Four tabs — **Create**, **Connect**, **Edit**, and **Delete** — share a fixed two-pane layout. Use `Tab` / `Shift+Tab` to change pane focus and `←` / `→` to change tabs where allowed.
+
+In Connect, the Edit list, and Delete, the right pane filters connections by group. In Create and an active Edit form, it becomes **Assign Groups**; use `Space` to toggle assignments and `Ctrl+S` to save from either pane.
+
+Select `(No Groups)` to remove the group filter and show all connections. See the [TUI keys reference](/reference/tui-keys/) for group management, complete controls, and context-specific behavior.
 
 ## Where to next
 

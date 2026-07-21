@@ -7,15 +7,16 @@ description: Answers to the questions people ask most often about dssh.
 
 ### Is dssh a replacement for `ssh`?
 
-No. dssh is a **front-end** for `ssh`. Under the hood it runs your system's ssh binary — same protocols, same config, same key handling. dssh just removes the "which of my 40 hosts was that?" friction and, optionally, stores passwords encrypted.
+No. dssh is a **front-end** for `ssh`. Under the hood it runs your system's ssh binary — same protocols, same config, same key handling. dssh just removes the "which of my 40 hosts was that?" friction.
 
 ### Why not just edit `~/.ssh/config`?
 
 You can — and dssh supports that mode directly. The value dssh adds:
 
 - Fuzzy-searchable TUI over your hosts
+- Organize your connections in one or many groups
 - Encrypted password storage (ssh_config can't do this)
-- Consistent CLI across machines, regardless of how you spell your config files
+- Consistent workflow across machines, regardless of how you spell your config files
 
 ### Does dssh work offline?
 
@@ -33,7 +34,7 @@ Yes. Pick `ssh_config only` or `both` mode on first run (or later via `dssh conf
 
 ### Where is data stored?
 
-- `~/.dssh/dssh.db` — SQLite database (connections + settings + crypto material)
+- `~/.dssh/dssh.db` — SQLite database (connections + groups + memberships + settings + crypto material)
 - `~/.ssh/config` or a path you chose — `ssh_config` entries
 - `$TMPDIR/dssh-askpass-*.sh` — ephemeral askpass scripts, deleted after each password connect
 
@@ -56,7 +57,9 @@ Yes — stick to **key auth only** and never save a password. dssh never prompts
 
 ### What happens if I forget the master passphrase?
 
-The encrypted passwords are irretrievable. Run `dssh reset` to wipe the database and start over — key-auth connections re-add in seconds, and `ssh_config` entries are untouched by reset. See [Troubleshooting → Lost master passphrase](/guides/troubleshooting/#lost-master-passphrase).
+The encrypted passwords are irretrievable. `dssh reset` deletes SQLite connections, groups, memberships, settings, and crypto material. `ssh_config` entries remain untouched.
+
+See [Troubleshooting → Lost master passphrase](/guides/troubleshooting/#lost-master-passphrase).
 
 ### Does dssh support hardware-backed keys (YubiKey, SoloKey, Secure Enclave)?
 

@@ -5,7 +5,7 @@ template: splash
 hero:
   tagline: The only SSH manager you'll ever need.<br>CLI & TUI. Dead-simple.<br>For Linux, macOS, Windows & FreeBSD.
   image:
-    file: ../../assets/dssh.svg
+    file: ../../assets/dssh_stripped.svg
     alt: "dssh logo"
     class: ".hero-img"
   actions:
@@ -74,7 +74,7 @@ import FeatureGrid from 'starlight-theme-terminal/components/FeatureGrid.astro';
 		CLI: `dssh add [NAME] [USER]@[HOST]`
 	</Card>
 	<Card title="Connect" icon="rocket">
-		TUI: Search & pick from the list, hit enter, you're in.
+		TUI: Filter connections, pick from the list, hit enter, you're in.
 
 		CLI: `dssh [NAME]`, you're in.
 	</Card>
@@ -88,9 +88,17 @@ import FeatureGrid from 'starlight-theme-terminal/components/FeatureGrid.astro';
 	</Card>
 </FeatureGrid>
 
+{/* TODO: ## Grouping pane */}
+
 ## Why dssh?
 
 <CardGrid>
+  <Card title="CLI & TUI" icon="window">
+		Whether you're a CLI or TUI person, you'll feel at home.
+	</Card>
+  <Card title="Filter by name and groups" icon="seti:code-search">
+		Organize your connections effortlessly: Add them to one or many groups, or just filter by name.
+	</Card>
 	<Card title="Zero dependencies" icon="seti:go">
 		Single static binary compiled with Go. No runtime, no libraries, no config files to edit.
 	</Card>

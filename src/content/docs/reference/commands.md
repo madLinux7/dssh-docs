@@ -34,7 +34,9 @@ These apply to every subcommand. Mode-override flags are **one-shot** — they d
 dssh
 ```
 
-Opens the TUI on the **Connect** tab (or **Create**, if no connections exist).
+Opens the two-pane TUI on **Connect**, where the right pane filters connections by group. If no connections exist, it opens **Create** instead, with **Assign Groups** in the right pane.
+
+Direct `dssh NAME` connections are unchanged.
 
 ### `dssh NAME` — direct connect
 
@@ -118,7 +120,7 @@ Lists saved connections. In `both` mode, a `SOURCE` column is added so you can s
 dssh create
 ```
 
-Opens the TUI wizard on the Create tab. Toggle key ↔ password auth with `Ctrl+T`.
+Opens the TUI wizard on Create. The right pane assigns any number of groups with `Space`; `Ctrl+N` creates a group, `Ctrl+T` toggles key ↔ password auth, and `Ctrl+S` saves from either pane.
 
 ### `dssh edit`
 
@@ -126,7 +128,9 @@ Opens the TUI wizard on the Create tab. Toggle key ↔ password auth with `Ctrl+
 dssh edit
 ```
 
-Opens the TUI on the Edit tab. Pick a connection, change any field, save. Auth-type switching is supported — switching to password prompts for the master passphrase.
+Opens the TUI on Edit. Filter the list by connection text and group, select a connection, then edit its fields and group assignments. `Ctrl+S` saves from either pane.
+
+Auth-type switching is supported. Switching to password prompts for the master passphrase.
 
 ### `dssh delete`
 
@@ -134,7 +138,9 @@ Opens the TUI on the Edit tab. Pick a connection, change any field, save. Auth-t
 dssh delete
 ```
 
-Opens the TUI on the Delete tab. Press `Enter` three times on the same item within 1 second to confirm. Safer than `dssh rm` when you're not 100% sure of the name.
+Opens the TUI on Delete. Filter by connection text and group, then press `Enter` three times on the same item within 1 second. This is safer than `dssh rm` when you're not 100% sure of the name.
+
+Groups have no public CLI commands. Create, rename, delete, filtering, and assignment are TUI-only; deleting a group never deletes its connections. `dssh list` output and direct `dssh NAME` behavior are unchanged.
 
 ## Configure
 
@@ -169,7 +175,9 @@ parse_both_default_save_target:  sqlite
 dssh reset
 ```
 
-Deletes `~/.dssh/dssh.db` entirely — connections, encrypted passwords, salt, passphrase verifier, all of it. Requires two confirmations (`yes`, then type `reset` literally). `ssh_config` entries are untouched.
+Deletes `~/.dssh/dssh.db` entirely — SQLite connections, encrypted passwords, groups, memberships, settings, salt, and passphrase verifier. Requires two confirmations (`yes`, then type `reset` literally).
+
+`ssh_config` host entries are untouched. Their group memberships are removed because that metadata lives in the SQLite database.
 
 ## Reserved names
 
