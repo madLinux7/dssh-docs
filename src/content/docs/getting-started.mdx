@@ -133,6 +133,16 @@ When picking **ssh_config** or **Both**, you'll also choose a destination file: 
    myserver    root  192.168.1.10   22    key   -    -
    ```
 
+4. **Optional: organize with groups**:
+
+   ```sh
+   dssh group create Home
+   dssh add nas --group Home root@192.168.1.20
+   dssh list --group Home
+   ```
+
+   Groups must exist before `dssh add --group`. See the [grouping guide](/guides/grouping/) for TUI workflows, assignment, and source-scope details.
+
 </Steps>
 
 ## Password-authenticated hosts
@@ -168,6 +178,7 @@ Select `(No Groups)` to remove the group filter and show all connections. See th
 ## Where to next
 
 <CardGrid>
+  <LinkCard title="Grouping" href="/guides/grouping/" description="Organize, assign, and filter connections in the TUI or CLI." />
   <LinkCard title="Command reference" href="/reference/commands/" description="Every flag, alias, and example for the CLI." />
   <LinkCard title="TUI keys" href="/reference/tui-keys/" description="Keybindings for each tab and modal." />
   <LinkCard title="Configuration" href="/reference/config/" description="Parse modes, session flags, file locations." />

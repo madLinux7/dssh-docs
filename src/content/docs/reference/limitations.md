@@ -55,7 +55,7 @@ Today, "promoting" a host from one store to the other is a manual re-add. A firs
 
 ### Flat groups only
 
-A connection can belong to multiple groups, but groups cannot be nested. dssh does not provide folder trees or a separate tag system, and groups are managed only inside the TUI.
+A connection can belong to multiple groups, but groups cannot be nested. dssh does not provide folder trees or a separate tag system. Groups are manageable in both the TUI and the CLI.
 
 ### `ssh-agent` key management
 

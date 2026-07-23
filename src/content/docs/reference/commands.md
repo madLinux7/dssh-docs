@@ -9,6 +9,7 @@ All commands are backed by [Cobra](https://github.com/spf13/cobra). `--help` wor
 
 ```text
 dssh [NAME] [-- extra-ssh-args...]
+dssh connect NAME [-- extra-ssh-args...]
 dssh <command> [flags] [args]
 ```
 
@@ -16,7 +17,7 @@ Run `dssh` with no arguments to open the TUI. Run `dssh NAME` to connect straigh
 
 ## Global flags
 
-These apply to every subcommand. Mode-override flags are **one-shot** — they do not persist to the saved configuration.
+These apply to every subcommand. Mode-override flags are **one-shot** — they do not persist to the saved configuration. Use at most one of `--sqlite`, `--sshconfig`, and `--both`.
 
 | Flag           | Effect                                                            |
 | -------------- | ----------------------------------------------------------------- |
@@ -50,12 +51,25 @@ Anything after `--` is forwarded verbatim to `ssh`.
 - Key auth replaces the dssh process with `ssh` via `syscall.Exec` on Unix (zero wrapper overhead, native job control).
 - Password auth runs `ssh` as a child with `SSH_ASKPASS` pointed at a short-lived script that echoes the decrypted password. The script is created with mode `0700` in `$TMPDIR` and removed on exit.
 
+### `dssh connect NAME` — explicit connect
+
+```sh
+dssh connect myserver
+dssh connect myserver -- -v -L 8080:localhost:80
+```
+
+Equivalent to direct connect. Use this form to open a pre-existing connection named `group`, which now collides with the group command:
+
+```sh
+dssh connect group
+```
+
 ## Manage connections
 
 ### `dssh add`
 
 ```text
-dssh add [-p PORT] [-d DIR] [-J JUMP] [--sqlite | --sshconfig] NAME target [password]
+dssh add [-p PORT] [-d DIR] [-J JUMP] [--group GROUP]... [--sqlite | --sshconfig] NAME target [password]
 ```
 
 Save a new connection without touching the TUI.
@@ -65,8 +79,11 @@ Save a new connection without touching the TUI.
 | `--port`                | `-p`  | SSH port (default `22`). Overrides a port in an `ssh://` URI |
 | `--directory`           | `-d`  | Remote directory to `cd` into on connect                   |
 | `--proxy-jump`          | `-J`  | ProxyJump host — threaded through to `ssh -J`. Accepts `user@bastion`, `bastion.example.com`, or a chain `host1,host2` |
+| `--group`               |       | Assign an existing group; repeat for multiple groups       |
 | `--sqlite`              |       | Force save to SQLite (bypasses `both`-mode prompt)         |
 | `--sshconfig`           |       | Force save to `ssh_config` (bypasses `both`-mode prompt)   |
+
+Groups must already exist. dssh resolves every group before creating the connection. SQLite saves connection + memberships in one transaction; failed `ssh_config` metadata assignment removes the new entry.
 
 **Target** accepts either form:
 
@@ -96,6 +113,9 @@ dssh add db01 -J jump1.example.com,jump2.example.com dbadmin@10.0.1.50
 
 # password auth — prompts for master passphrase on first use
 dssh add prodbox deploy@10.0.0.5 'hunter2'
+
+# assign existing groups while adding
+dssh add api --group Production --group Europe deploy@api.example.com
 ```
 
 ### `dssh rm NAME`
@@ -110,9 +130,19 @@ Delete a connection by name. **No confirmation** — use `dssh delete` for the t
 
 ```sh
 dssh ls
+dssh list --group Production
+dssh list --group Production --group Staging
+dssh list --ungrouped
+dssh list --json
 ```
 
 Lists saved connections. In `both` mode, a `SOURCE` column is added so you can see which store each host lives in.
+
+Repeat `--group` for an OR filter: a connection is shown when it belongs to any named group. An unknown group prints no human rows; JSON returns `[]`.
+
+`--ungrouped` shows connections with no memberships in their active source. It cannot be combined with `--group`. Unlike this flag, the TUI's `(No Groups)` row removes the group filter and shows all connections.
+
+`--json` adds `source` and source-scoped `groups` to safe connection fields. Encrypted passwords and nonces are never included.
 
 ### `dssh create` / `dssh new`
 
@@ -140,7 +170,44 @@ dssh delete
 
 Opens the TUI on Delete. Filter by connection text and group, then press `Enter` three times on the same item within 1 second. This is safer than `dssh rm` when you're not 100% sure of the name.
 
-Groups have no public CLI commands. Create, rename, delete, filtering, and assignment are TUI-only; deleting a group never deletes its connections. `dssh list` output and direct `dssh NAME` behavior are unchanged.
+## Groups
+
+Group names are case-insensitive. A connection can belong to multiple groups.
+
+| Command                                        | Effect                                                    |
+| ---------------------------------------------- | --------------------------------------------------------- |
+| `dssh group list [--json]`                     | List groups with membership counts for active source(s)   |
+| `dssh group create NAME`                       | Create a group                                            |
+| `dssh group rename NAME NEW_NAME`              | Rename a group and keep its memberships                   |
+| `dssh group delete NAME`                       | Delete a group and its memberships immediately            |
+| `dssh group assign GROUP CONNECTION...`        | Assign one or more connections                            |
+| `dssh group unassign GROUP CONNECTION...`      | Remove one or more assignments                            |
+
+Group deletion has no confirmation flag and never deletes connections.
+
+```sh
+dssh group create Production
+dssh group assign Production api web
+dssh group unassign Production web
+dssh group rename Production Live
+dssh group list
+dssh group delete Live
+```
+
+Groups are global SQLite metadata. Memberships are source-scoped: equally named SQLite and `ssh_config` connections can have different groups. `ssh_config` memberships are also scoped to the configured file path.
+
+Reads span active sources. `group list` shows counts for each active source. Its JSON items contain `name`, `sqlite_count`, and `ssh_config_count`; counts for unselected sources are `null`.
+
+In configured `both` mode, membership writes require exactly one source override:
+
+```sh
+dssh --sqlite group assign Production api
+dssh --sshconfig group assign Production api
+```
+
+`--both` is invalid for membership writes. Group and connection reads can still use `both` mode.
+
+`assign` and `unassign` validate the group and every connection before writing. Repeated connection names are deduplicated, operations are idempotent, and the whole batch succeeds or fails as one membership transaction.
 
 ## Configure
 
@@ -184,7 +251,7 @@ Deletes `~/.dssh/dssh.db` entirely — SQLite connections, encrypted passwords, 
 These names collide with CLI commands and are rejected by `dssh add` and the Create/Edit TUI:
 
 ```
-add, rm, list, ls, new, create, edit, delete, reset, help, config
+add, rm, list, ls, new, create, edit, delete, group, connect, reset, help, config
 ```
 
 Pick a connection name outside that set.

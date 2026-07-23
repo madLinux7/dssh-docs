@@ -38,6 +38,7 @@ export default defineConfig({
 				{
 					label: 'Guides',
 					items: [
+						{ label: 'Grouping', slug: 'guides/grouping' },
 						{ label: 'Security model', slug: 'guides/security' },
 						{ label: 'Migration', slug: 'guides/migration' },
 						{ label: 'Troubleshooting', slug: 'guides/troubleshooting' },
