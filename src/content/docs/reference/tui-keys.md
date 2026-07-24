@@ -14,6 +14,8 @@ Active everywhere unless overridden by a form or dialog.
 | `Tab` / `Shift+Tab` | Switch focus between the left and right panes                         |
 | `←` / `→`           | Switch top-level tabs where the focused control allows it             |
 | `Ctrl+L`            | Toggle the SQLite / ssh_config source (only in **both** mode)          |
+| `Ctrl+P`            | Collapse or expand the right grouping pane                             |
+| `?`                 | Hide or show contextual key hints                                      |
 | `Esc`               | Clear the focused filter, cancel the current form, or quit             |
 | `Ctrl+C`            | Quit immediately                                                       |
 
@@ -25,11 +27,15 @@ Active everywhere unless overridden by a form or dialog.
 
 ## Two-pane layout
 
-Every tab uses a fixed 50/50 split. The left pane contains connections or form fields. The right pane either filters by group or assigns groups to a connection.
+Every tab starts with a 50/50 split. The left pane contains connections or form fields. The right pane either filters by group or assigns groups to a connection.
+
+Press `Ctrl+P` to collapse the grouping pane and give the left pane the full width; press it again to expand the pane. This preference, like key-hint visibility, persists between TUI sessions.
+
+Collapsing the grouping pane selects `(No Groups)` and restores the full connection list. In Create or an active Edit form, it discards unsaved group-assignment changes so hidden assignments cannot be saved.
 
 A terminal size of at least `80×20` is required. Smaller terminals show a size warning instead of stacking or clipping the panes.
 
-Search terms, cursors, the selected group, filtered connections, and pane focus persist as you move between tabs for the current TUI session.
+Search terms, cursors, filtered connections, and pane focus persist as you move between tabs for the current TUI session.
 
 ### Filter groups
 

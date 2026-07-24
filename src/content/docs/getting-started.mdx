@@ -169,11 +169,15 @@ No arguments, no sub-command — just:
 dssh
 ```
 
-Four tabs — **Create**, **Connect**, **Edit**, and **Delete** — share a fixed two-pane layout. Use `Tab` / `Shift+Tab` to change pane focus and `←` / `→` to change tabs where allowed.
+Four tabs — **Create**, **Connect**, **Edit**, and **Delete** — start in a two-pane layout. Use `Tab` / `Shift+Tab` to change pane focus and `←` / `→` to change tabs where allowed.
+
+Press `Ctrl+P` to collapse or expand the right grouping pane; the preference persists between sessions. Press `?` to hide or show the contextual key hints.
 
 In Connect, the Edit list, and Delete, the right pane filters connections by group. In Create and an active Edit form, it becomes **Assign Groups**; use `Space` to toggle assignments and `Ctrl+S` to save from either pane.
 
 Select `(No Groups)` to remove the group filter and show all connections. See the [TUI keys reference](/reference/tui-keys/) for group management, complete controls, and context-specific behavior.
+
+Collapsing the grouping pane resets the filter to `(No Groups)`. If you collapse it while creating or editing a connection, any unsaved group-assignment changes are discarded.
 
 ## Where to next
 
